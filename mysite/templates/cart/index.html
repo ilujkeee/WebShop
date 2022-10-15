@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+{% load static %}
+
+        <div id="breadcrumb" class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">{{ title }}</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="/cart">cart</a></li>
+							<li class="active">index</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content-section" class="section">
+			<div class="container">
+				<div class="row text-center">
+					<!-- =========================================================== -->
+						<table id="cart-table" class="table table-stripped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Товар</th>
+                                    <th>Ціна</th>
+                                    <th>Дата</th>
+                                    <th>Статус</th>
+                                    <th>Вибір</th>
+                                    <th>Видалення</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in user_cart_items %}
+                                    <tr>
+                                        <td class="id_cell">{{ item.id }}</td>
+                                        <td>{{ item.product.name }}</td>
+                                        <td class="price_cell">{{ item.product.price }}</td>
+                                        <td>{{ item.data }}</td>
+                                        <td>{{ item.status }}</td>
+                                        <td>
+                                            <input type="checkbox" class="check" value="yes" checked>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{ item.id }}">
+                                            <button class="btn btn-sm btn-danger del-btn">Видалити</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div>
+                            <h5 style="font-size: 1.65rem; margin-top: 30px; color: darkcyan">
+                                Загальна сума до сплати: &nbsp;
+                                <span id="total" style="color: red">0.00 грн.</span>
+                            </h5>
+                        </div>
+                        <p style="margin-top: 20px">
+                            <a id="bill-btn" href="/orders/bill/1,2,3,10000" class="btn btn-success">
+                                Перейти до замовлення
+                            </a>
+                            &nbsp;
+                            <a id="back-btn" href="/catalog/index" class="btn btn-primary">
+                                Перейти до каталогу
+                            </a>
+                        </p>
+					<!-- =========================================================== -->
+				</div>
+			</div>
+		</div>
+        <style>
+            thead th {
+                text-align: center;
+                color: darkcyan;
+            }
+        </style>
+        <script src="{% static 'js/calc_cart_items.js' %}"></script>
+        <script src="{% static 'js/del_cart_item.js' %}"></script>
+{% endblock content %}
